@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mornington 三日兩夜 · 行程 & 執嘢</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700;900&family=Noto+Sans+TC:wght@400;500;600;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --loam:#1E1A17; --paper:#E9E6DE; --vein:#C6BFAF;
+    --spring:#4A7F78; --spring-lift:#6BA79E; --alert:#9A4A32;
+    --serif:"Noto Serif TC",serif;
+    --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+    --mono:"Space Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{background:var(--paper);color:var(--loam);font-family:var(--sans);font-size:17px;font-weight:400;line-height:1.62;padding-bottom:4rem}
+  a{color:inherit}
+
+  /* ---------- hero ---------- */
+  .hero{background:var(--loam);color:var(--paper);padding:2.4rem 1.15rem 1.9rem;position:relative;overflow:hidden}
+  .hero svg.marb{position:absolute;inset:0;width:100%;height:100%;opacity:.15}
+  .hero-in{position:relative;max-width:660px;margin:0 auto}
+  .eyebrow{font-family:var(--mono);font-size:.7rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--vein);opacity:.8}
+  h1{font-family:var(--serif);font-weight:900;font-size:clamp(2rem,9vw,2.9rem);letter-spacing:.03em;line-height:1.12;margin:.55rem 0 0}
+  h1 i{font-style:normal;color:var(--spring-lift);font-weight:400;padding:0 .1em}
+  .dates{font-family:var(--mono);font-size:.86rem;font-weight:700;letter-spacing:.07em;color:var(--vein);margin-top:.9rem}
+  .basecamp{margin-top:1.3rem;padding-top:1rem;border-top:1px solid rgba(198,191,175,.25);font-size:.92rem;color:var(--vein);font-weight:400}
+  .basecamp b{color:var(--paper);font-weight:700;display:block;font-size:1.02rem;margin-bottom:.2rem}
+
+  /* ---------- sticky bar ---------- */
+  .bar{position:sticky;top:0;z-index:40;background:rgba(233,230,222,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(30,26,23,.16)}
+  .bar-in{max-width:660px;margin:0 auto;padding:0 1.15rem}
+  .tabs{display:flex;gap:0}
+  .tabs button{
+    flex:1;background:none;border:none;cursor:pointer;color:var(--loam);
+    font-family:var(--serif);font-weight:700;font-size:1.12rem;letter-spacing:.06em;
+    padding:.8rem .3rem .62rem;border-bottom:2px solid transparent;transition:.15s;
+  }
+  .tabs button[aria-selected="true"]{border-bottom-color:var(--loam)}
+  .tabs button[aria-selected="false"]{opacity:.4}
+  .tabs button small{display:block;font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;opacity:.6;font-weight:700;margin-top:.12rem}
+
+  .subbar{border-top:1px solid rgba(30,26,23,.1)}
+  .jump{display:flex;gap:.4rem;padding:.5rem 0 .55rem}
+  .jump a{
+    flex:1;text-align:center;text-decoration:none;font-family:var(--mono);
+    font-size:.75rem;font-weight:700;letter-spacing:.09em;padding:.45rem .2rem;border-radius:2px;
+    border:1px solid rgba(30,26,23,.22);transition:.15s;
+  }
+  .jump a:hover{background:var(--loam);color:var(--paper);border-color:var(--loam)}
+
+  .meter-in{display:flex;align-items:center;gap:.85rem;padding:.5rem 0 .55rem}
+  .dial{width:44px;height:44px;flex:none;display:block}
+  .meter-txt{display:flex;flex-direction:column;line-height:1.15}
+  .meter-num{font-family:var(--mono);font-weight:700;font-size:1.24rem;letter-spacing:-.02em}
+  .meter-num span{color:var(--spring)}
+  .meter-num em{font-style:normal;opacity:.42;font-size:.9rem}
+  .meter-lbl{font-size:.66rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;opacity:.5;font-family:var(--mono);margin-top:.1rem}
+  .meter-done{margin-left:auto;font-family:var(--serif);font-weight:700;font-size:.9rem;color:var(--spring);opacity:0;transition:opacity .4s;white-space:nowrap}
+  .meter-done.on{opacity:1}
+
+  /* ---------- views ---------- */
+  .view{display:none}
+  .view.on{display:block}
+  .wrap{max-width:660px;margin:0 auto}
+
+  /* ---------- itinerary ---------- */
+  .day{padding:0 1.15rem;margin-top:2.6rem;scroll-margin-top:7.5rem}
+  .day-head{display:flex;align-items:baseline;gap:.7rem;padding-bottom:.5rem;border-bottom:1.5px solid var(--loam)}
+  .day-no{font-family:var(--mono);font-size:.78rem;letter-spacing:.15em;color:var(--spring);font-weight:700}
+  .day-head h2{font-family:var(--serif);font-weight:700;font-size:1.4rem;letter-spacing:.03em;margin:0}
+  .day-date{margin-left:auto;font-family:var(--mono);font-size:.74rem;font-weight:700;opacity:.55}
+
+  .tl{position:relative;padding-left:5.1rem;margin-top:.4rem}
+  .tl::before{content:"";position:absolute;left:4.05rem;top:1.5rem;bottom:1.2rem;width:1px;background:rgba(30,26,23,.2)}
+  .stop{position:relative;padding:1.1rem 0 .3rem}
+  .stop .time{position:absolute;left:-5.1rem;top:1.22rem;width:3.4rem;text-align:right;font-family:var(--mono);font-size:.83rem;font-weight:700;letter-spacing:-.03em}
+  .stop .dot{position:absolute;left:-1.32rem;top:1.48rem;width:9px;height:9px;border-radius:50%;background:var(--paper);border:1.5px solid var(--loam)}
+  .stop.key .dot{background:var(--spring);border-color:var(--spring)}
+  .stop.soft .dot{border-style:dashed;border-color:rgba(30,26,23,.45)}
+  .stop h3{font-family:var(--serif);font-weight:700;font-size:1.2rem;margin:0 0 .25rem;letter-spacing:.02em;line-height:1.4}
+  .stop .where{font-size:.87rem;opacity:.68;font-weight:400}
+  .stop .where a{color:var(--spring);text-decoration:none;border-bottom:1px solid rgba(74,127,120,.4)}
+  .stop p{margin:.55rem 0 0;font-size:.96rem;font-weight:400}
+  .stop p b{font-weight:700}
+  .tag{display:inline-block;font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.08em;padding:.16rem .45rem;border:1px solid rgba(30,26,23,.3);border-radius:2px;margin-left:.4rem;vertical-align:.12em;opacity:.7}
+  .tag.bk{border-color:var(--spring);color:var(--spring);opacity:1}
+  .drive{padding:.45rem 0;font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.09em;opacity:.5}
+  .drive::before{content:"↓  "}
+
+  .note{margin-top:.65rem;padding:.8rem .95rem;background:rgba(30,26,23,.055);border-left:3px solid var(--spring);font-size:.9rem;font-weight:400}
+  .note.warn{border-left-color:var(--alert);background:rgba(154,74,50,.07)}
+  .note b{font-weight:700}
+
+  .opts{display:grid;gap:.55rem;margin-top:.7rem}
+  .opt{border:1px solid rgba(30,26,23,.2);padding:.72rem .88rem;border-radius:2px}
+  .opt h4{margin:0 0 .2rem;font-family:var(--serif);font-size:1.06rem;font-weight:700}
+  .opt span{font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.09em;opacity:.6;display:block;margin-bottom:.35rem}
+  .opt p{margin:0;font-size:.9rem;font-weight:400}
+  .opt.pick{border-color:var(--spring);border-width:1.5px}
+  .opt.pick h4::after{content:" ← 推薦";font-family:var(--mono);font-size:.64rem;font-weight:700;color:var(--spring);letter-spacing:.08em}
+
+  .kitchen{margin:1.1rem 0 0;background:var(--loam);color:var(--vein);padding:1.15rem 1.1rem;border-radius:2px}
+  .kitchen h4{font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--spring-lift);margin:0 0 .75rem}
+  .kitchen ol{margin:0;padding-left:1.15rem;font-size:.93rem;font-weight:400}
+  .kitchen li{margin-bottom:.6rem}
+  .kitchen li b{color:var(--paper);font-weight:700}
+  .kitchen li:last-child{margin-bottom:0}
+
+  .refs{margin:2.8rem 1.15rem 0;border-top:1.5px solid var(--loam);padding-top:1rem}
+  .refs h3{font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;margin:0 0 .8rem;opacity:.6}
+  .ref{display:flex;justify-content:space-between;gap:1rem;padding:.6rem 0;border-bottom:1px solid rgba(30,26,23,.1);font-size:.92rem}
+  .ref span{font-family:var(--mono);font-size:.82rem;font-weight:700;opacity:.7;white-space:nowrap}
+  .ref div b{font-weight:700;display:block}
+  .ref div small{opacity:.6;font-weight:400;font-size:.84rem}
+
+  /* ---------- packing ---------- */
+  .sec{padding:0 1.15rem;margin-top:2.2rem}
+  .sec-head{display:flex;align-items:baseline;gap:.6rem;padding-bottom:.55rem;border-bottom:1.5px solid var(--loam)}
+  .sec-head h2{font-family:var(--serif);font-weight:700;font-size:1.32rem;letter-spacing:.04em;margin:0}
+  .sec-count{margin-left:auto;font-family:var(--mono);font-size:.8rem;font-weight:700;letter-spacing:.05em;opacity:.55}
+  .sec.full .sec-count{color:var(--spring);opacity:1}
+  ul.items{list-style:none;margin:0;padding:0}
+  ul.items li{border-bottom:1px solid rgba(30,26,23,.1)}
+  label.row{display:flex;align-items:flex-start;gap:.85rem;padding:.8rem .15rem;cursor:pointer}
+  label.row input{position:absolute;opacity:0;width:0;height:0}
+  .mark{flex:none;width:22px;height:22px;margin-top:.2rem;border-radius:50%;border:2px solid rgba(30,26,23,.4);background:transparent;position:relative;transition:background .18s,border-color .18s}
+  .mark::after{content:"";position:absolute;left:6.6px;top:2.8px;width:5px;height:10px;border:solid var(--paper);border-width:0 2px 2px 0;transform:rotate(45deg) scale(.4);opacity:0;transition:opacity .18s,transform .18s}
+  label.row input:checked ~ .mark{background:var(--loam);border-color:var(--loam)}
+  label.row input:checked ~ .mark::after{opacity:1;transform:rotate(45deg) scale(1)}
+  label.row input:focus-visible ~ .mark{outline:2px solid var(--spring);outline-offset:3px}
+  .txt{font-size:1.05rem;font-weight:500;transition:opacity .2s}
+  .txt b{font-weight:600}
+  .txt small{display:block;font-size:.85rem;opacity:.66;margin-top:.2rem;font-weight:400}
+  label.row input:checked ~ .txt{opacity:.34}
+  label.row input:checked ~ .txt b{text-decoration:line-through;text-decoration-thickness:1px}
+  li.warn .txt small{color:var(--alert);opacity:.85}
+
+  .tip{margin:2.6rem 1.15rem 0;padding:1.1rem 1.15rem;background:var(--loam);color:var(--vein);border-radius:2px}
+  .tip h3{font-family:var(--mono);font-size:.7rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;margin:0 0 .6rem;color:var(--spring-lift)}
+  .tip p{margin:0 0 .6rem;font-size:.95rem;font-weight:400}
+  .tip p:last-child{margin-bottom:0}
+  .tip strong{color:var(--paper);font-weight:700}
+
+  footer{padding:2rem 1.15rem 0;text-align:center}
+  button.reset{font-family:var(--mono);font-size:.74rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;background:none;color:var(--loam);border:1px solid rgba(30,26,23,.3);border-radius:2px;padding:.6rem 1.3rem;cursor:pointer;transition:.18s}
+  button.reset:hover{background:var(--loam);color:var(--paper);border-color:var(--loam)}
+  .saved{font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:.13em;opacity:.42;margin-top:.9rem}
+
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+  @media (max-width:400px){
+    .tl{padding-left:4.4rem}
+    .tl::before{left:3.45rem}
+    .stop .time{left:-4.4rem;width:2.9rem;font-size:.76rem}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <svg class="marb" viewBox="0 0 400 200" preserveAspectRatio="none" aria-hidden="true">
+    <g stroke="#C6BFAF" fill="none" stroke-width="1">
+      <path d="M-10 55 C 90 18, 150 85, 250 45 S 380 85, 420 35"/>
+      <path d="M-10 105 C 80 75, 160 145, 260 95 S 370 135, 420 90"/>
+      <path d="M-10 158 C 100 125, 140 192, 240 152 S 360 188, 420 145"/>
+      <path d="M-10 196 C 70 178, 170 206, 250 188 S 380 212, 420 192"/>
+    </g>
+  </svg>
+  <div class="hero-in">
+    <div class="eyebrow">Mornington Peninsula · 4 Girls</div>
+    <h1>松露 <i>×</i> 溫泉</h1>
+    <div class="dates">31 JUL – 02 AUG 2026 · 3 DAYS / 2 NIGHTS</div>
+    <div class="basecamp">
+      <b>Martha Cove Family Retreat</b>
+      68A Helm Avenue, Safety Beach VIC 3936　·　Check-in 31/7 · Check-out 2/8
+    </div>
+  </div>
+</header>
+
+<div class="bar">
+  <div class="bar-in">
+    <div class="tabs" role="tablist">
+      <button id="tab-trip" role="tab" aria-selected="true" aria-controls="v-trip">行程<small>ITINERARY</small></button>
+      <button id="tab-pack" role="tab" aria-selected="false" aria-controls="v-pack">執嘢<small>PACKING</small></button>
+    </div>
+    <div class="subbar">
+      <div class="jump" id="sub-trip">
+        <a href="#d1">FRI 31</a><a href="#d2">SAT 01</a><a href="#d3">SUN 02</a><a href="#refs">訂單</a>
+      </div>
+      <div class="meter-in" id="sub-pack" style="display:none">
+        <svg class="dial" viewBox="0 0 100 100" aria-hidden="true">
+          <circle cx="50" cy="50" r="42" fill="var(--loam)"></circle>
+          <g id="veins" stroke="var(--vein)" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".9">
+            <path pathLength="100" d="M50 12 C 44 30, 56 40, 50 52"></path>
+            <path pathLength="100" d="M84 42 C 66 44, 60 52, 50 52"></path>
+            <path pathLength="100" d="M72 82 C 62 68, 54 62, 50 52"></path>
+            <path pathLength="100" d="M24 80 C 36 66, 44 60, 50 52"></path>
+            <path pathLength="100" d="M14 40 C 32 46, 42 50, 50 52"></path>
+          </g>
+          <circle id="arc" cx="50" cy="50" r="46.5" fill="none" stroke="var(--spring)" stroke-width="3"
+                  stroke-linecap="round" pathLength="100" transform="rotate(-90 50 50)"></circle>
+        </svg>
+        <div class="meter-txt">
+          <div class="meter-num"><span id="c-done">0</span><em>/<span id="c-all">0</span></em></div>
+          <div class="meter-lbl">Packed</div>
+        </div>
+        <div class="meter-done" id="alldone">執齊喇 · 出發 ↗</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ VIEW: ITINERARY ============ -->
+<div class="view on" id="v-trip" role="tabpanel"><div class="wrap">
+
+  <section class="day" id="d1">
+    <div class="day-head"><div class="day-no">DAY 1</div><h2>出發 · 愛爾蘭酒館 · 夜泉</h2><div class="day-date">FRI 31 JUL</div></div>
+    <div class="tl">
+      <div class="stop">
+        <div class="time">2:00pm</div><div class="dot"></div>
+        <h3>墨爾本出發</h3>
+        <div class="where">EastLink → Peninsula Link，約 65km</div>
+        <p>冷藏嘢（忌廉、酥皮、隔夜飯）放保溫袋加冰種。無 e-Tag 記得三日內上網補交過路費。</p>
+      </div>
+      <div class="drive">約 1 小時</div>
+
+      <div class="stop key">
+        <div class="time">3:15pm</div><div class="dot"></div>
+        <h3>Check in · Martha Cove<span class="tag bk">5080886933</span></h3>
+        <div class="where">68A Helm Avenue, Safety Beach　<a href="https://www.google.com/maps/search/?api=1&query=68A+Helm+Avenue+Safety+Beach+VIC+3936" target="_blank" rel="noopener">地圖</a></div>
+        <p>入屋第一件事：<b>檢查廚房</b>——焗爐得唔得、有冇焗盤同攪拌棒、雪櫃有幾大。有咩唔夠今晚就知，聽日順路買到。凍嘢即刻入雪櫃。</p>
+      </div>
+      <div class="drive">約 15 分鐘</div>
+
+      <div class="stop key">
+        <div class="time">5:00pm</div><div class="dot"></div>
+        <h3>晚餐 · The Dubliner<span class="tag bk">已訂</span></h3>
+        <div class="where">65 Octavia St, Mornington　<a href="https://www.google.com/maps/search/?api=1&query=The+Dubliner+65+Octavia+St+Mornington" target="_blank" rel="noopener">地圖</a>　·　03 5975 3567</div>
+        <div class="note warn"><b>時間好緊。</b>6:40pm 一定要走，先趕得切 7:15 到 Alba。即係得 1 個半鐘。入座就落單、唔好等埋甜品；而且夜晚要浸溫泉，<b>食七分飽就夠</b>，太飽落水會唔舒服。想穩陣可以打電話改做 4:30pm。</div>
+      </div>
+      <div class="drive">約 30 分鐘</div>
+
+      <div class="stop key">
+        <div class="time">7:15pm</div><div class="dot"></div>
+        <h3>Alba Thermal Springs · Night Owl<span class="tag bk">337945</span></h3>
+        <div class="where">282 Browns Rd, Fingal VIC 3939　<a href="https://www.google.com/maps/search/?api=1&query=Alba+Thermal+Springs+282+Browns+Rd+Fingal" target="_blank" rel="noopener">地圖</a>　·　場次 7:30pm · 4 位</div>
+        <p>官方叫早 15 分鐘到，行去接待處先唔會趕。夜晚郊區冇燈、路窄，慢慢揸。</p>
+        <div class="note">泳衣<b>入屋就著定喺衫入面</b>，慳返更衣時間。首飾全部除低——礦物質會令銀同鍍金變色。記得帶水樽，浸溫泉好易脫水。</div>
+      </div>
+      <div class="drive">約 30 分鐘</div>
+
+      <div class="stop soft">
+        <div class="time">10:00pm</div><div class="dot"></div>
+        <h3>返 Safety Beach</h3>
+        <p>臨瞓做兩件事：<b>雞蛋連殼放埋密封盒</b>等聽日入松露（第三日炒蛋用），同埋確認隔夜飯已經攤凍散開。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="day" id="d2">
+    <div class="day-head"><div class="day-no">DAY 2</div><h2>獵松露 · 紅山 · 煮飯仔</h2><div class="day-date">SAT 01 AUG</div></div>
+    <div class="tl">
+      <div class="stop">
+        <div class="time">8:00am</div><div class="dot"></div>
+        <h3>早餐 & 換衫</h3>
+        <p>簡單食啲就得，10:30 左右農場有得食嘢。<b>著水鞋、防水褸</b>，泥地又濕又凍，波鞋會報銷。</p>
+      </div>
+      <div class="drive">約 20 分鐘</div>
+
+      <div class="stop key">
+        <div class="time">9:15am</div><div class="dot"></div>
+        <h3>Red Hill Truffles 松露獵尋<span class="tag bk">RHT0186</span></h3>
+        <div class="where">235 Arthurs Seat Rd, Red Hill VIC 3937　<a href="https://www.google.com/maps/search/?api=1&query=Red+Hill+Truffles+235+Arthurs+Seat+Rd+Red+Hill" target="_blank" rel="noopener">地圖</a>　·　9:30am 開始 · 4 位</div>
+        <p>流程大約係：30 分鐘講解 → 落田同狗仔搵松露約一個鐘 → 洗松露示範 → 坐低試食。全程約 2–3 個鐘，中午前完。</p>
+        <div class="note warn"><b>最緊要嗰樣：買松露返去煮。</b>你張飛係 $125 嘅純獵尋場次，唔包一嚿松露畀你帶走。農場門市有新鮮松露同松露牛油、松露鹽賣，<b>離開之前一定要買夠</b>——四餐計，30–50g。錯過咗就冇得補，Coles 買唔到新鮮嘅。</div>
+      </div>
+      <div class="drive">約 10 分鐘</div>
+
+      <div class="stop key">
+        <div class="time">12:45pm</div><div class="dot"></div>
+        <h3>午餐 · The Epicurean Red Hill</h3>
+        <div class="where">165 Shoreham Rd, Red Hill South　<a href="https://www.google.com/maps/search/?api=1&query=The+Epicurean+Red+Hill+165+Shoreham+Rd" target="_blank" rel="noopener">地圖</a>　·　03 5989 4000</div>
+        <div class="note warn"><b>星期六午市 3:00pm 收爐</b>，晏咗就食唔到（夜市要 5:30 先開）。松露季嘅週末好爆，記得<b>提早打電話訂枱</b>，同講埋你哋大概 12:45 到。</div>
+      </div>
+
+      <div class="stop soft">
+        <div class="time">2:30pm</div><div class="dot"></div>
+        <h3>下午 · 三個方案揀一個</h3>
+        <p>八月五點半左右就天黑，所以下午只夠做一樣嘢。三個都喺返屋企嘅順路方向。</p>
+        <div class="opts">
+          <div class="opt pick">
+            <h4>Arthurs Seat Eagle 吊車</h4>
+            <span>離餐廳 15 分鐘 · 週六開到 5PM</span>
+            <p>玩返轉頭，山頂望成個 Port Phillip Bay。冬天下午光線靚，四個女仔影相一流。玩完落山直接經 Dromana 返屋企。</p>
+          </div>
+          <div class="opt">
+            <h4>Pt. Leo Estate 雕塑公園</h4>
+            <span>離餐廳 15 分鐘 · 每日 11AM–5PM</span>
+            <p>海邊葡萄園入面行雕塑徑，靜、大氣、超上鏡。行完可以喺 cellar door 飲返杯。要行路，穿得暖啲。</p>
+          </div>
+          <div class="opt">
+            <h4>直接返屋企唞</h4>
+            <span>15 分鐘</span>
+            <p>如果早上獵完松露已經攰（好大機會），就返去沖個涼、瞓半個鐘，慢慢起貨煮晚飯。四道菜其實幾食時間。</p>
+          </div>
+        </div>
+      </div>
+      <div class="drive">約 10 分鐘</div>
+
+      <div class="stop">
+        <div class="time">4:15pm</div><div class="dot"></div>
+        <h3>入貨 · Ritchies IGA Dromana</h3>
+        <div class="where">Point Nepean Rd, Dromana　<a href="https://www.google.com/maps/search/?api=1&query=Ritchies+IGA+Dromana+Point+Nepean+Rd" target="_blank" rel="noopener">地圖</a>　·　每日 7AM–9PM</div>
+        <p>補買菜心、花菜、蘑菇、忌廉、酥皮、酸種包。呢間 deli 同國際區都幾齊。返屋企 8 分鐘。</p>
+      </div>
+
+      <div class="stop key">
+        <div class="time">5:00pm</div><div class="dot"></div>
+        <h3>松露晚餐 · 四人四道菜</h3>
+        <div class="where">屋企廚房</div>
+        <div class="kitchen">
+          <h4>Cooking Run Sheet</h4>
+          <ol>
+            <li><b>5:00　備料</b>——酥皮解凍、蘑菇切片、乾牛肝菌用暖水浸、花菜切細朵、菜心洗好、蒜切片。松露刷乾淨，唔好用水沖。</li>
+            <li><b>5:20　煲湯底</b>——洋蔥炒香、落蘑菇同浸開嘅牛肝菌，加上湯煮 15 分鐘，攪拌棒打滑，落忌廉調味。<b>放涼少少</b>先入燉盅，太熱會冚唔穩酥皮。</li>
+            <li><b>5:50　封盅入爐</b>——湯倒八成滿，酥皮剪大過盅口一圈，邊位掃蛋液貼實，面掃蛋液。200°C 焗 20–25 分鐘至金黃鼓起。<b>入咗爐就唔好開門。</b></li>
+            <li><b>6:00　炒花菜</b>——同時開火，橄欖油蒜片爆香，花菜炒到邊位微焦，海鹽黑椒。上碟。</li>
+            <li><b>6:10　炒飯</b>——牛油起鑊，蛋液炒散，落隔夜飯炒散炒香，最後落菜心快炒，生抽白胡椒調味。</li>
+            <li><b>6:25　上枱刨松露</b>——四碟同時上，<b>熄晒火之後</b>先刨松露。落鑊煮香味會走晒。湯盅上枱先鎅開酥皮，個香會即刻噴出嚟——留返嗰一下畀大家一齊睇。</li>
+          </ol>
+        </div>
+        <div class="note">留返大概三分一嚿松露聽朝做早餐。用密封盒同廚房紙包好，放雪櫃最凍嗰格。</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="day" id="d3">
+    <div class="day-head"><div class="day-no">DAY 3</div><h2>松露早餐 · 冬日市集 · 回程</h2><div class="day-date">SUN 02 AUG</div></div>
+    <div class="tl">
+      <div class="stop key">
+        <div class="time">8:30am</div><div class="dot"></div>
+        <h3>松露早餐</h3>
+        <div class="where">屋企廚房 · 約 20 分鐘搞掂</div>
+        <p>建議煮 <b>松露炒蛋 + 煎蘑菇 + 煙肉 + 酸種多士</b>。理由好簡單：炒蛋係最襯松露嘅嘢，脂肪同蛋香會將香味托起，而且四個人一鑊搞掂，唔會阻住執行李。</p>
+        <div class="note"><b>做法：</b>雞蛋（已經同松露過咗夜）加一忽牛油、細細火慢炒，半凝固就熄火，落少少忌廉同鹽。上碟先刨松露。蘑菇另外用牛油煎到金黃、落少少百里香。多士烘香搽牛油墊底。<br><br>如果想食暖啲：<b>松露蘑菇忌廉多士</b>——琴晚剩低嘅湯煮稠啲，鋪喺烘香嘅酸種包上，刨松露、撒 Parmesan。零浪費。</div>
+      </div>
+
+      <div class="stop">
+        <div class="time">9:45am</div><div class="dot"></div>
+        <h3>執嘢 · Check out</h3>
+        <p>燉盅同刀具逐件點清楚。廚餘同垃圾記得清走。</p>
+      </div>
+      <div class="drive">約 8 分鐘</div>
+
+      <div class="stop key">
+        <div class="time">10:15am</div><div class="dot"></div>
+        <h3>Dromana Indoor Market</h3>
+        <div class="where">110 Nepean Hwy, Dromana　<a href="https://www.google.com/maps/search/?api=1&query=Dromana+Indoor+Market+110+Nepean+Hwy+Dromana" target="_blank" rel="noopener">地圖</a>　·　星期日 10AM–4PM</div>
+        <div class="note warn"><b>關於 Sunday market：</b>半島大部分戶外市集（Red Hill、Shoreham、Mornington Racecourse、Mount Eliza Farmers）都係九月至五月先開，或者係第二／第三／第四個星期日 —— 8 月 2 號係第一個星期日，<b>全部都唔開</b>。<br><br>Dromana Indoor Market 係室內、全年開、90 幾個攤位：vintage、手作首飾、古著、陶瓷、本地蜂蜜。落雨都唔怕。缺點係<b>泊車位好少</b>，早啲到易搞啲。</div>
+      </div>
+
+      <div class="stop soft">
+        <div class="time">12:00pm</div><div class="dot"></div>
+        <h3>Main Street Mornington · 咖啡同手信</h3>
+        <div class="where">Main St, Mornington　·　約 15 分鐘車程</div>
+        <p>回程順路。行下 Main Street，飲返杯 coffee 食個 brunch 先返墨爾本——Store Fifteen（15 Main St）同 Mr Jackson（45 Main St）兩間都做到下午三點。</p>
+      </div>
+
+      <div class="stop">
+        <div class="time">1:30pm</div><div class="dot"></div>
+        <h3>回程墨爾本</h3>
+        <p>約 1 小時。星期日下午返城方向通常仲順。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="refs" id="refs">
+    <h3>Bookings</h3>
+    <div class="ref"><div><b>Martha Cove Family Retreat</b><small>68A Helm Ave, Safety Beach · 31/7 – 2/8</small></div><span>5080886933</span></div>
+    <div class="ref"><div><b>Alba Thermal Springs · Night Owl</b><small>31/7 7:30pm · 4 Adult · $380</small></div><span>337945</span></div>
+    <div class="ref"><div><b>Red Hill Truffles · Truffle Hunt</b><small>1/8 9:30am · 4 Adult · $500</small></div><span>RHT0186</span></div>
+    <div class="ref"><div><b>The Dubliner Mornington</b><small>31/7 5:00pm · 03 5975 3567</small></div><span>已訂</span></div>
+    <div class="ref"><div><b>The Epicurean Red Hill</b><small>1/8 午市 · 03 5989 4000</small></div><span>要訂</span></div>
+  </section>
+
+  <footer style="font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:.13em;opacity:.42">WINTER · 7–14°C · SUNSET ~5:25PM</footer>
+</div></div>
+
+<!-- ============ VIEW: PACKING ============ -->
+<div class="view" id="v-pack" role="tabpanel"><div class="wrap">
+  <div id="list"></div>
+  <div class="tip">
+    <h3>三個唔好漏</h3>
+    <p>松露買返嚟：廚房紙包好入密封盒，放雪櫃最凍嗰格，每日換一次紙。</p>
+    <p>刨松露一定要<strong>熄咗火之後</strong>先落，落鑊煮香味會走晒。</p>
+    <p>第一晚將雞蛋連殼同松露放埋同一個盒過夜，第二朝炒蛋自帶松露香。</p>
+  </div>
+  <footer>
+    <button class="reset" id="reset">全部重設</button>
+    <div class="saved" id="saved">進度會自動儲存</div>
+  </footer>
+</div></div>
+
+<script>
+/* ---------- tabs ---------- */
+const tabTrip=document.getElementById("tab-trip"), tabPack=document.getElementById("tab-pack");
+const vTrip=document.getElementById("v-trip"), vPack=document.getElementById("v-pack");
+const subTrip=document.getElementById("sub-trip"), subPack=document.getElementById("sub-pack");
+function setTab(pack){
+  tabPack.setAttribute("aria-selected", pack);
+  tabTrip.setAttribute("aria-selected", !pack);
+  vPack.classList.toggle("on", pack);
+  vTrip.classList.toggle("on", !pack);
+  subPack.style.display = pack ? "flex" : "none";
+  subTrip.style.display = pack ? "none" : "flex";
+}
+tabTrip.addEventListener("click",()=>setTab(false));
+tabPack.addEventListener("click",()=>setTab(true));
+
+/* ---------- packing data ---------- */
+const DATA=[
+ {t:"🍽️ 廚具",items:[
+  {n:"燉盅 ×4",s:"出門前確認可入焗爐；用毛巾逐個包好落硬箱"},
+  {n:"松露刨 truffle slicer",s:"冇呢件嘢等於白買松露"},
+  {n:"軟毛刷",s:"清松露泥，舊牙刷都得"},
+  {n:"手提攪拌棒",s:"打蘑菇湯用，民宿好少有"},
+  {n:"廚刀 + 砧板",s:"民宿把刀通常好鈍"},
+  {n:"不黏鑊 / 炒鑊"},
+  {n:"焗盤、毛掃、隔篩、量匙",s:"毛掃掃蛋液封酥皮"},
+  {n:"密封保鮮盒 ×2 + 廚房紙"},
+  {n:"保溫袋 + 冰種",s:"車程中忌廉同松露都要凍住"},
+  {n:"錫紙、保鮮紙、洗潔精、海綿、垃圾袋"}]},
+ {t:"🛒 食材 · 四人份",items:[
+  {n:"新鮮黑松露 30–50g",s:"⚠️ 你張 $125 飛唔包松露，離開農場前一定要喺門市買",w:true},
+  {n:"松露醬 / 松露油 一小支",s:"保險提香用，唔好落鑊煮"},
+  {n:"隔夜白飯 4–5 碗",s:"出發前一晚煮定，攤凍入盒"},
+  {n:"雞蛋 1 打"},
+  {n:"菜心 1 紮"},
+  {n:"花菜 1 個"},
+  {n:"蘑菇 500g + 乾牛肝菌 20g",s:"牛肝菌係湯提鮮嘅關鍵"},
+  {n:"冷藏酥皮 1 盒",s:"Coles / Woolies 嘅 Pampas puff pastry"},
+  {n:"淡忌廉 300ml"},
+  {n:"洋蔥 1 個、蒜頭 1 球"},
+  {n:"雞或蔬菜上湯 1L"},
+  {n:"牛油、橄欖油、麵粉、百里香"},
+  {n:"生抽、白胡椒、海鹽片、黑椒",s:"分裝小樽，唔使搬成支"},
+  {n:"酸種麵包、煙肉、Parmesan",s:"Day 3 松露炒蛋配"}]},
+ {t:"🐕 松露獵尋日 · SAT",items:[
+  {n:"水鞋 gumboots",s:"泥地必備，唔好著波鞋"},
+  {n:"防水連帽外套"},
+  {n:"厚襪 ×2"},
+  {n:"手套、冷帽、頸巾"},
+  {n:"暖包"},
+  {n:"替換鞋 + 大膠袋",s:"放車尾廂裝污糟水鞋"},
+  {n:"現金 / 信用卡",s:"農場門市買松露用"},
+  {n:"保溫杯裝熱飲"}]},
+ {t:"♨️ Alba 溫泉 · FRI 7:30PM",items:[
+  {n:"泳衣",s:"一件頭較方便；出發前著定喺衫入面"},
+  {n:"拖鞋"},
+  {n:"快乾大毛巾",s:"出發前上網確認場館有冇提供"},
+  {n:"防水袋",s:"裝濕衫"},
+  {n:"髮圈、髮夾、浴帽"},
+  {n:"護髮素、身體乳、面霜",s:"礦物水好抽乾"},
+  {n:"水樽",s:"浸溫泉好易脫水"},
+  {n:"首飾全部除低",s:"⚠️ 硫磺同礦物質會令銀同鍍金變色",w:true}]},
+ {t:"🧥 衣物",items:[
+  {n:"保暖底層 ×2"},
+  {n:"冷衫 / 針織 ×2"},
+  {n:"長褲 ×2",s:"其中一條要可濕可污"},
+  {n:"防風防水褸"},
+  {n:"內衣褲 ×3"},
+  {n:"睡衣、室內服"},
+  {n:"厚襪、拖鞋"},
+  {n:"靚少少一套",s:"Dubliner 晚餐 / Arthurs Seat 影相"}]},
+ {t:"💄 個人護理",items:[
+  {n:"潔面、化妝水、精華、面霜"},
+  {n:"護唇膏、防曬",s:"陰天都要搽"},
+  {n:"面膜 ×2"},
+  {n:"化妝品 + 卸妝"},
+  {n:"洗頭水",s:"民宿嗰啲通常好傷髮"},
+  {n:"牙刷牙膏"},
+  {n:"個人衛生用品"},
+  {n:"常備藥",s:"止痛、腸胃、暈車"}]},
+ {t:"🚙 車 & 證件",items:[
+  {n:"車匙、駕照、證件"},
+  {n:"手機支架、車充、尿袋"},
+  {n:"EastLink 收費安排",s:"無 e-Tag 記得三日內網上補交"},
+  {n:"住宿地址 + 三張 booking 截圖",s:"Martha Cove / Alba 337945 / RHT0186 · 郊區訊號差，離線存低",w:true},
+  {n:"零食、水、歌單"}]}
+];
+
+const KEY="mornington-trip-v2";
+let state={};
+const listEl=document.getElementById("list");
+DATA.forEach((sec,si)=>{
+  const s=document.createElement("section");
+  s.className="sec";
+  s.innerHTML=`<div class="sec-head"><h2>${sec.t}</h2><div class="sec-count"><span class="sd">0</span>/${sec.items.length}</div></div>
+  <ul class="items">${sec.items.map((it,ii)=>`
+    <li class="${it.w?"warn":""}"><label class="row">
+      <input type="checkbox" data-id="i${si}-${ii}">
+      <span class="mark"></span>
+      <span class="txt"><b>${it.n}</b>${it.s?`<small>${it.s}</small>`:""}</span>
+    </label></li>`).join("")}</ul>`;
+  listEl.appendChild(s);
+});
+
+const boxes=[...document.querySelectorAll('#list input[type=checkbox]')];
+const arc=document.getElementById("arc");
+const veins=[...document.querySelectorAll("#veins path")];
+const cDone=document.getElementById("c-done");
+const savedEl=document.getElementById("saved");
+document.getElementById("c-all").textContent=boxes.length;
+veins.forEach(v=>v.style.strokeDasharray=100);
+arc.style.strokeDasharray=100;
+
+function render(){
+  const done=boxes.filter(b=>b.checked).length;
+  const p=done/boxes.length;
+  cDone.textContent=done;
+  arc.style.strokeDashoffset=100-p*100;
+  veins.forEach((v,i)=>{
+    const seg=Math.min(1,Math.max(0,p*veins.length-i));
+    v.style.strokeDashoffset=100-seg*100;
+  });
+  document.getElementById("alldone").classList.toggle("on",done===boxes.length&&done>0);
+  document.querySelectorAll(".sec").forEach(sec=>{
+    const kids=[...sec.querySelectorAll("input")];
+    const d=kids.filter(k=>k.checked).length;
+    sec.querySelector(".sd").textContent=d;
+    sec.classList.toggle("full",d===kids.length);
+  });
+}
+async function save(){
+  boxes.forEach(b=>state[b.dataset.id]=b.checked);
+  try{ await window.storage.set(KEY,JSON.stringify(state)); savedEl.textContent="已儲存"; }
+  catch(e){ savedEl.textContent="儲存唔到，今次進度只留喺呢個畫面"; }
+}
+boxes.forEach(b=>b.addEventListener("change",()=>{render();save();}));
+document.getElementById("reset").addEventListener("click",()=>{
+  boxes.forEach(b=>b.checked=false); render(); save();
+});
+(async function load(){
+  try{
+    const r=await window.storage.get(KEY);
+    if(r&&r.value){
+      state=JSON.parse(r.value);
+      boxes.forEach(b=>{ if(state[b.dataset.id]) b.checked=true; });
+      savedEl.textContent="已載入之前嘅進度";
+    }
+  }catch(e){ savedEl.textContent="進度會自動儲存"; }
+  render();
+})();
+</script>
+</body>
+</html>
