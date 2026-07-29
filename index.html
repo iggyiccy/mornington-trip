@@ -146,6 +146,22 @@
   .tip p:last-child{margin-bottom:0}
   .tip strong{color:var(--paper);font-weight:700}
 
+  .rec{padding:0 1.15rem;margin-top:2.4rem}
+  .rec-head{border-bottom:1.5px solid var(--loam);padding-bottom:.5rem}
+  .rec-head h2{font-family:var(--serif);font-weight:700;font-size:1.32rem;letter-spacing:.04em;margin:0}
+  .rec-head .sub{font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:.14em;opacity:.5;margin-top:.25rem}
+  .lbl{font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--spring);margin:1.2rem 0 .5rem}
+  .ing{list-style:none;margin:0;padding:0;columns:2;column-gap:1.2rem;font-size:.9rem}
+  .ing li{break-inside:avoid;padding:.16rem 0}
+  .ing li b{font-weight:700}
+  .rec ol.steps{margin:0;padding-left:1.2rem;font-size:.94rem}
+  .rec ol.steps li{margin-bottom:.55rem}
+  .rec ol.steps li b{font-weight:700}
+  .vids{display:grid;gap:.45rem;margin-top:.5rem}
+  .vid{display:flex;gap:.6rem;align-items:baseline;text-decoration:none;border:1px solid rgba(30,26,23,.22);padding:.6rem .75rem;border-radius:2px;font-size:.88rem;transition:.15s}
+  .vid:hover{background:var(--loam);color:var(--paper);border-color:var(--loam)}
+  .vid span{font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.1em;color:var(--alert);flex:none}
+  .vid:hover span{color:var(--spring-lift)}
   footer{padding:2rem 1.15rem 0;text-align:center}
   button.reset{font-family:var(--mono);font-size:.74rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;background:none;color:var(--loam);border:1px solid rgba(30,26,23,.3);border-radius:2px;padding:.6rem 1.3rem;cursor:pointer;transition:.18s}
   button.reset:hover{background:var(--loam);color:var(--paper);border-color:var(--loam)}
@@ -186,6 +202,7 @@
     <div class="tabs" role="tablist">
       <button id="tab-trip" role="tab" aria-selected="true" aria-controls="v-trip">行程<small>ITINERARY</small></button>
       <button id="tab-pack" role="tab" aria-selected="false" aria-controls="v-pack">執嘢<small>PACKING</small></button>
+      <button id="tab-rec" role="tab" aria-selected="false" aria-controls="v-rec">食譜<small>RECIPES</small></button>
     </div>
     <div class="subbar">
       <div class="jump" id="sub-trip">
@@ -326,7 +343,7 @@
         <div class="time">4:15pm</div><div class="dot"></div>
         <h3>入貨 · Ritchies IGA Dromana</h3>
         <div class="where">Point Nepean Rd, Dromana　<a href="https://www.google.com/maps/search/?api=1&query=Ritchies+IGA+Dromana+Point+Nepean+Rd" target="_blank" rel="noopener">地圖</a>　·　每日 7AM–9PM</div>
-        <p>補買菜心、花菜、蘑菇、忌廉、酥皮、酸種包。呢間 deli 同國際區都幾齊。返屋企 8 分鐘。</p>
+        <p>補買芥蘭、椰菜花西蘭花、蘑菇、薯仔、忌廉、酥皮、酸種包。呢間 deli 同國際區都幾齊。返屋企 8 分鐘。</p>
       </div>
 
       <div class="stop key">
@@ -427,21 +444,164 @@
   </footer>
 </div></div>
 
+
+<!-- ============ VIEW: RECIPES ============ -->
+<div class="view" id="v-rec" role="tabpanel"><div class="wrap">
+
+  <div class="tip" style="margin-top:2rem">
+    <h3>松露三大原則</h3>
+    <p><strong>一、熄火先落。</strong>松露嘅香係揮發性嘅，落鑊煮兩分鐘就走剩一半。三道菜全部係上碟、熄火之後先刨。</p>
+    <p><strong>二、要凍住先刨。</strong>室溫嘅松露軟身，刨落去會崩爛成粒粒。用之前先雪返十五分鐘。</p>
+    <p><strong>三、要有脂肪托住。</strong>牛油、蛋黃、忌廉、橄欖油——冇脂肪嘅話香氣掛唔住，會覺得「刨咗但食唔到」。所以三道菜都用足油分。</p>
+  </div>
+
+  <section class="rec">
+    <div class="rec-head">
+      <h2>黑松露蘑菇酥皮湯</h2>
+      <div class="sub">4 燉盅 · 約 50 分鐘 · 最花時間</div>
+    </div>
+
+    <div class="lbl">材料</div>
+    <ul class="ing">
+      <li>白／啡蘑菇 <b>500g</b></li>
+      <li>乾牛肝菌 <b>20g</b></li>
+      <li>洋蔥 <b>1 個</b></li>
+      <li>薯仔 <b>1 個</b>（中型）</li>
+      <li>牛油 <b>30g</b></li>
+      <li>上湯 <b>800ml</b></li>
+      <li>淡忌廉 <b>100ml</b></li>
+      <li>冷藏酥皮 <b>1 塊</b></li>
+      <li>蛋液 少許</li>
+      <li>鹽、黑胡椒</li>
+      <li>新鮮松露</li>
+    </ul>
+
+    <div class="lbl">做法</div>
+    <ol class="steps">
+      <li>乾牛肝菌用暖水浸 20 分鐘，<b>浸嘅水留返</b>——最鮮味喺嗰度。</li>
+      <li>牛油炒香洋蔥，落蘑菇。炒到出晒水、收乾、邊位微焦先算數，唔夠火會有陣生菇味。</li>
+      <li>落薯仔粒、上湯、牛肝菌連浸水，煮 15 分鐘至薯仔腍。</li>
+      <li>攪拌棒打滑，落忌廉煮 5 分鐘，鹽同黑椒調味。</li>
+      <li><b>放涼至微暖</b>，倒入燉盅<b>八成滿</b>。太滿焗嘅時候會滾瀉，酥皮就升唔起。</li>
+      <li>酥皮剪成大過盅口一圈嘅圓形，邊位掃蛋液貼實盅邊<b>捏到密不透風</b>，面層再掃一次蛋液。</li>
+      <li>200°C 焗 20–25 分鐘至金黃鼓起。<b>中途唔好開爐門</b>，一開就塌。</li>
+      <li>上枱先鎅開，刨松露落去。</li>
+    </ol>
+
+    <div class="note"><b>免麵粉增稠嘅秘訣係薯仔。</b>傳統做法要 1:1 牛油麵糊，用咗薯仔就唔使——而且冇粉味，蘑菇本身嘅鮮會突出啲。</div>
+
+    <div class="note"><b>飯桌話題：</b>酥皮湯係法國廚神 Paul Bocuse 發明。1975 年佢為總統 Giscard d'Estaing 做嘅就係一碗黑松露酥皮湯，之後成為佢里昂餐廳嘅招牌菜，一碗賣七八百港紙。你今晚煮嘅正正係嗰個原型。</div>
+
+    <div class="lbl">影片參考</div>
+    <div class="vids">
+      <a class="vid" href="https://www.youtube.com/watch?v=5mJOii9nW-s" target="_blank" rel="noopener"><span>YT</span>酥皮奶油蘑菇湯 — 封酥皮同焗嘅手勢睇呢條</a>
+      <a class="vid" href="https://www.youtube.com/watch?v=wZ3JawCR_tQ" target="_blank" rel="noopener"><span>YT</span>忌廉蘑菇湯 30 分鐘（廣東話）— 湯底打法</a>
+      <a class="vid" href="https://www.hk01.com/%E6%95%99%E7%85%AE/73675/%E8%A5%BF%E6%B9%AF%E9%A3%9F%E8%AD%9C-%E8%96%AF%E4%BB%94%E8%98%91%E8%8F%87%E9%85%A5%E7%9A%AE%E6%B9%AF%E5%85%8D%E9%BA%B5%E7%B2%89%E9%A6%99%E6%BF%83%E9%85%A5%E8%84%864%E8%B2%BC%E5%A3%AB-%E9%8C%AF1%E6%AD%A5%E9%85%A5%E7%9A%AE%E4%B8%8D%E8%84%B9%E8%B5%B7" target="_blank" rel="noopener"><span>HK01</span>薯仔蘑菇酥皮湯 — 酥皮唔脹起嘅四個關鍵</a>
+    </div>
+  </section>
+
+  <section class="rec">
+    <div class="rec-head">
+      <h2>黑松露芥蘭炒飯</h2>
+      <div class="sub">4 人 · 約 15 分鐘 · 最後煮</div>
+    </div>
+
+    <div class="lbl">材料</div>
+    <ul class="ing">
+      <li>隔夜飯 <b>4 碗</b></li>
+      <li>雞蛋 <b>4 隻</b></li>
+      <li>芥蘭 <b>1 紮</b></li>
+      <li>蒜頭 <b>3 瓣</b></li>
+      <li>牛油 <b>20g</b></li>
+      <li>生抽 <b>1 茶匙</b></li>
+      <li>鹽、白胡椒</li>
+      <li>新鮮松露</li>
+    </ul>
+
+    <div class="lbl">做法</div>
+    <ol class="steps">
+      <li>芥蘭切段。<b>滾水加油同鹽灼 1 分鐘</b>，過冷河，擠乾水。芥蘭比菜心粗身，唔灼會韌同帶苦。</li>
+      <li>蛋打散，落鑊炒成蛋塊，盛起備用。</li>
+      <li>牛油起鑊爆香蒜蓉，落隔夜飯，用鑊鏟壓散，<b>大火炒到粒粒分明</b>。飯要凍要散，濕嘅飯點炒都係糊。</li>
+      <li>落返蛋塊同芥蘭，快炒三十秒，生抽、鹽、白胡椒調味。芥蘭最後落先唔會出水。</li>
+      <li>上碟，熄火，用<b>荷蘭芝士刨</b>刨松露片鋪面。</li>
+    </ol>
+
+    <div class="lbl">影片參考</div>
+    <div class="vids">
+      <a class="vid" href="https://www.youtube.com/watch?v=YHWsN9MeM5Q" target="_blank" rel="noopener"><span>YT</span>梁祖堯 黑松露炒飯（廣東話）</a>
+      <a class="vid" href="https://www.youtube.com/watch?v=KH82ffTMnGw" target="_blank" rel="noopener"><span>YT</span>May 姐 黑松露炒飯 — 飯推鑊邊再落蛋嘅手法</a>
+    </div>
+  </section>
+
+  <section class="rec">
+    <div class="rec-head">
+      <h2>黑松露炒花菜</h2>
+      <div class="sub">4 人 · 約 12 分鐘 · 你已經試煮過</div>
+    </div>
+
+    <div class="lbl">材料</div>
+    <ul class="ing">
+      <li>椰菜花 <b>1 個</b></li>
+      <li>西蘭花 <b>半個</b></li>
+      <li>蒜頭 <b>4 瓣</b>（切片）</li>
+      <li>橄欖油 <b>2 湯匙</b></li>
+      <li>海鹽片、黑椒</li>
+      <li>新鮮松露</li>
+    </ul>
+
+    <div class="lbl">做法</div>
+    <ol class="steps">
+      <li>切細朵，但<b>唔好切得太細</b>——太細冇咬口，而且好易炒散。</li>
+      <li>滾水加油同鹽，灼 2–3 分鐘，撈起<b>擠到乾透</b>。呢步令中心熟透，之後炒就唔使加水焗。</li>
+      <li>大火燒熱鑊落油，蒜片爆到微黃。</li>
+      <li>落花菜，<b>攤平唔好不停搞</b>。等佢埋鑊生出焦邊先翻面——你試煮嗰次啲焦邊做得好靚，就係咁。</li>
+      <li>海鹽片、黑椒。熄火，刨松露。</li>
+    </ol>
+
+    <div class="note"><b>灼完唔擠乾水就前功盡廢。</b>濕嘅花菜落鑊只會變蒸，出唔到焦邊，松露就冇嘢掛住。</div>
+
+    <div class="lbl">影片參考</div>
+    <div class="vids">
+      <a class="vid" href="https://www.youtube.com/watch?v=j3NM4t7jvj8" target="_blank" rel="noopener"><span>YT</span>清炒潮州椰菜花（廣東話）— 灼水手法</a>
+      <a class="vid" href="https://www.youtube.com/watch?v=mr0oVlvEJLo" target="_blank" rel="noopener"><span>YT</span>干煸菜花 — 焦邊效果嘅火路</a>
+    </div>
+  </section>
+
+  <section class="rec">
+    <div class="rec-head">
+      <h2>星期日 · 松露炒蛋</h2>
+      <div class="sub">4 人 · 20 分鐘 · 剩返嘅松露用晒佢</div>
+    </div>
+    <div class="lbl">做法</div>
+    <ol class="steps">
+      <li>雞蛋（已經同松露喺密封盒過咗兩晚）加牛油，<b>細細火慢炒</b>，唔好停手。</li>
+      <li>半凝固就熄火，落一羹忌廉同鹽，餘溫會繼續煮熟。</li>
+      <li>蘑菇另外用牛油煎到金黃，落少少百里香。</li>
+      <li>多士爐烘香酸種包，搽牛油墊底。</li>
+      <li>上碟，用 <b>Microplane</b> 刨松露絨落面——刨絨比刨片香得多，最後一餐唔使留手。</li>
+    </ol>
+    <div class="note">如果琴晚個湯有剩：煮稠啲，鋪喺烘香嘅酸種包上，刨松露撒 Parmesan，就係一份松露蘑菇多士。零浪費。</div>
+  </section>
+
+  <footer style="font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:.13em;opacity:.42">TRUFFLE OFF THE HEAT · ALWAYS</footer>
+</div></div>
+
 <script>
 /* ---------- tabs ---------- */
-const tabTrip=document.getElementById("tab-trip"), tabPack=document.getElementById("tab-pack");
-const vTrip=document.getElementById("v-trip"), vPack=document.getElementById("v-pack");
+const TABS={trip:["tab-trip","v-trip"],pack:["tab-pack","v-pack"],rec:["tab-rec","v-rec"]};
 const subTrip=document.getElementById("sub-trip"), subPack=document.getElementById("sub-pack");
-function setTab(pack){
-  tabPack.setAttribute("aria-selected", pack);
-  tabTrip.setAttribute("aria-selected", !pack);
-  vPack.classList.toggle("on", pack);
-  vTrip.classList.toggle("on", !pack);
-  subPack.style.display = pack ? "flex" : "none";
-  subTrip.style.display = pack ? "none" : "flex";
+function setTab(which){
+  for(const k in TABS){
+    const [t,v]=TABS[k];
+    document.getElementById(t).setAttribute("aria-selected", k===which);
+    document.getElementById(v).classList.toggle("on", k===which);
+  }
+  subTrip.style.display = which==="trip" ? "flex" : "none";
+  subPack.style.display = which==="pack" ? "flex" : "none";
+  window.scrollTo({top:0,behavior:"instant"});
 }
-tabTrip.addEventListener("click",()=>setTab(false));
-tabPack.addEventListener("click",()=>setTab(true));
+for(const k in TABS) document.getElementById(TABS[k][0]).addEventListener("click",()=>setTab(k));
 
 /* ---------- packing data ---------- */
 const DATA=[
@@ -463,8 +623,8 @@ const DATA=[
   {n:"松露醬 / 松露油 一小支",s:"保險提香用，唔好落鑊煮"},
   {n:"隔夜白飯 4–5 碗",s:"出發前一晚煮定，攤凍入盒"},
   {n:"雞蛋 1 打"},
-  {n:"菜心 1 紮"},
-  {n:"花菜 1 個"},
+  {n:"芥蘭 1 紮",s:"炒飯用 · 記得灼過先炒"},
+  {n:"椰菜花 + 西蘭花 共 1.5 個"},
   {n:"蘑菇 500g + 乾牛肝菌 20g",s:"牛肝菌係湯提鮮嘅關鍵"},
   {n:"冷藏酥皮 1 盒",s:"Coles / Woolies 嘅 Pampas puff pastry"},
   {n:"淡忌廉 300ml"},
